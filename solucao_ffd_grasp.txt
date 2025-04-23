@@ -1,0 +1,9 @@
+Bin 1 (Ocupação: 79.00%):
+  Retângulo 1: (4x6) @ (0,0) 
+  Retângulo 4: (6x4) @ (4,0) 
+  Retângulo 2: (7x3) @ (0,6) (rotated)
+  Retângulo 3: (5x2) @ (4,4) 
+
+Bin 2 (Ocupação: 16.00%):
+  Retângulo 5: (2x8) @ (0,0) 
+

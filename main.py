@@ -157,7 +157,7 @@ def grasp_construction(bin_width, bin_height, rectangles, alpha, max_bins=100):
 
 def main():
     # Parâmetros
-    input_file = "empacotamento.txt"  # Arquivo de entrada
+    input_file = "empacotamentos/empacotamento_simples.txt"  # Arquivo de entrada
     alpha = 0.5  # Parâmetro de aleatoriedade (0 = totalmente guloso, 1 = totalmente aleatório)
     
     # Ler entrada
