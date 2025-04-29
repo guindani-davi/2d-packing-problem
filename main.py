@@ -185,7 +185,7 @@ def main():
         for i, bin in enumerate(solution, 1):
             print(f"Bin {i}: {bin}")
 
-        nome_arquivo = f"arquivo_numero{number}.txt"
+        nome_arquivo = f"./logs/arquivo_numero{number}.txt"
         with open(nome_arquivo, 'w') as f:
             for i, bin in enumerate(solution, 1):
                 f.write(f"Bin {i} (Ocupação: {bin.occupancy():.2%}):\n")
