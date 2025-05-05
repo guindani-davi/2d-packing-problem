@@ -1,3 +1,4 @@
 solucao_ffd_grasp.txt
 .venv
 logs/
+__pycache__/
