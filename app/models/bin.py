@@ -1,15 +1,15 @@
-from rectangule import Rectangle
+from models.rectangle import Rectangle
 
 class Bin:
-    def __init__(self, width, height):
+    def __init__(self, width: int, height: int):
         self.width = width
         self.height = height
-        self.rectangles = []
+        self.rectangles: list[Rectangle] = []
         self.used_area = 0
         self.area = width*height
         self.occupancy_map = [[False for _ in range(width)] for _ in range(height)] # Map com as posições do recipiente e qual o estado (ocupado ou não) atual
     
-    def can_place(self, rect, x, y):
+    def can_place(self, rect: Rectangle, x: int, y: int) -> bool:
         if x + rect.width > self.width or y + rect.height > self.height:
             return False
         for i in range(x, x + rect.width):
@@ -19,8 +19,7 @@ class Bin:
         return True
 
     
-    def place_rectangle(self, rect, x, y):
-        # Coloca o retângulo na posição (x,y)
+    def place_rectangle(self, rect: Rectangle, x: int, y: int) -> bool:
         if not self.can_place(rect, x, y):
             return False
         rect.x = x
@@ -32,7 +31,7 @@ class Bin:
                 self.occupancy_map[i][j] = True
         return True
     
-    def find_first_fit_position(self, rect):
+    def find_first_fit_position(self, rect: Rectangle):
         # Testa o retângulo sem alterar o original
         for rotated in [False, True]:
             test_rect = Rectangle(rect.width, rect.height)

@@ -1,29 +1,16 @@
 import random
 
-from rectangule import Rectangle
-from bin import Bin
+from models.rectangle import Rectangle
+from models.bin import Bin
+from helpers import read_input_file
 
-def read_input_file(filename): #função de leitura de um arquivo com os exemplos
-    # Arquivos de exemplo seguem o seguinte padrão: Primeira linha: Dimensão dos recipientes. Demais linhas: Dimensões de cada retângulo
-    with open(filename, 'r') as f:
-        lines = f.readlines()
-    
-    bin_width, bin_height = map(int, lines[0].strip().split())
-    
-    rectangles = []
-    for i, line in enumerate(lines[1:]):
-        width, height = map(int, line.strip().split())
-        rectangles.append(Rectangle(width, height, i+1))
-    
-    return bin_width, bin_height, rectangles
-
-def first_fit_decreasing_grasp(bin_width, bin_height, rectangles, max_bins=100):
+def first_fit_decreasing_grasp(bin_width: int, bin_height: int, rectangles: list[Rectangle], max_bins=100):
     sorted_rects = sorted(rectangles, key=lambda r: r.area, reverse=True)
     remaining_rects = sorted_rects.copy()
-    bins = []
+    bins: list[Bin] = []
     
     while remaining_rects and len(bins) < max_bins:
-        temp_remaining = []
+        temp_remaining: list[Rectangle] = []
         
         for rect in remaining_rects:
             placed = False
@@ -96,7 +83,7 @@ def grasp_construction(bin_width, bin_height, rectangles, alpha, max_bins=100):
     return best_solution
 
 def main():
-    input_file = "empacotamentos/empacotamento_desafiador.txt"
+    input_file = "empacotamentos/empacotamento_simples.txt"
     alpha = 0.5
     numbers = [1,2,3,4,5]
 
