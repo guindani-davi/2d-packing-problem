@@ -1,24 +1,25 @@
 import random
 
+
+from app.models.solution import Solution
 from models.rectangle import Rectangle
 from models.bin import Bin
 from helpers import read_input_file
 
-def first_fit_decreasing(bin_width: int, bin_height: int, rectangles: list[Rectangle], max_bins=100):
+def first_fit_decreasing(solution: Solution, rectangles: list[Rectangle]) -> Solution:
     # Algoritmo que tenta alocar o máximo de retângulos em cada bin, 
     # Usando o mínimo de bins possível 
     # Ordenando os retângulos por área em ordem decrescente
 
     sorted_rects = sorted(rectangles, key = lambda r: r.area, reverse=True) # Ordena os retângulos por área em ordem decrescente
     remaining_rects = sorted_rects.copy()
-    bins: list[Bin] = []
     
-    while remaining_rects and len(bins) < max_bins:
+    while remaining_rects and len(solution.bins) < solution.max_bins:
         temp_remaining: list[Rectangle] = []
         
         for rect in remaining_rects:
             placed = False
-            for current_bin in bins:
+            for current_bin in solution.bins:
                 position, rotated = current_bin.find_first_fit_position(rect)
                 if position is not None:
                     x, y = position
@@ -29,18 +30,18 @@ def first_fit_decreasing(bin_width: int, bin_height: int, rectangles: list[Recta
                     break
             
             if not placed:
-                new_bin = Bin(bin_width, bin_height)
+                new_bin = Bin(solution.default_bin.width, solution.default_bin.height)
                 position, rotated = new_bin.find_first_fit_position(rect)
                 if position is not None:
                     x, y = position
                     if rotated:
                         rect.rotate()
                     new_bin.place_rectangle(rect, x, y)
-                    bins.append(new_bin)
+                    solution.bins.append(new_bin)
         
         remaining_rects = temp_remaining
 
-    return bins
+    return solution
 
 def grasp_construction(bin_width, bin_height, rectangles, alpha, max_bins=100):
     best_solution = None

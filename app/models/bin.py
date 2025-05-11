@@ -31,7 +31,7 @@ class Bin:
                 self.occupancy_map[i][j] = True
         return True
     
-    def find_first_fit_position(self, rect: Rectangle):
+    def find_first_fit_position(self, rect: Rectangle) -> tuple[tuple[int, int], bool]:
         # Testa o retângulo sem alterar o original
         for rotated in [False, True]:
             test_rect = Rectangle(rect.width, rect.height)
