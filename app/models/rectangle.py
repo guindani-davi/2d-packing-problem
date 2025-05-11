@@ -1,12 +1,12 @@
 class Rectangle:
-    def __init__(self, width: int, height: int, id=None):
+    def __init__(self, width: int, height: int, id = None):
         self.width = width
         self.height = height
         self.id = id
         self.x = 0
         self.y = 0
         self.rotated = False
-        self.area = width*height
+        self.area = width * height
     
     def rotate(self):
         self.width, self.height = self.height, self.width

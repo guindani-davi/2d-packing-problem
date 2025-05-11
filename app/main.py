@@ -4,8 +4,12 @@ from models.rectangle import Rectangle
 from models.bin import Bin
 from helpers import read_input_file
 
-def first_fit_decreasing_grasp(bin_width: int, bin_height: int, rectangles: list[Rectangle], max_bins=100):
-    sorted_rects = sorted(rectangles, key=lambda r: r.area, reverse=True)
+def first_fit_decreasing(bin_width: int, bin_height: int, rectangles: list[Rectangle], max_bins=100):
+    # Algoritmo que tenta alocar o máximo de retângulos em cada bin, 
+    # Usando o mínimo de bins possível 
+    # Ordenando os retângulos por área em ordem decrescente
+
+    sorted_rects = sorted(rectangles, key = lambda r: r.area, reverse=True) # Ordena os retângulos por área em ordem decrescente
     remaining_rects = sorted_rects.copy()
     bins: list[Bin] = []
     
@@ -22,26 +26,21 @@ def first_fit_decreasing_grasp(bin_width: int, bin_height: int, rectangles: list
                         rect.rotate()
                     current_bin.place_rectangle(rect, x, y)
                     placed = True
-                    break  # Já foi colocado, não precisa testar nos outros bins
+                    break
             
             if not placed:
-                # Se não coube em nenhum bin existente, criar um novo bin
                 new_bin = Bin(bin_width, bin_height)
-                position, rotated = new_bin.find_first_fit_position(rect) #garantir que ele cabe no novo bin
+                position, rotated = new_bin.find_first_fit_position(rect)
                 if position is not None:
                     x, y = position
                     if rotated:
                         rect.rotate()
                     new_bin.place_rectangle(rect, x, y)
                     bins.append(new_bin)
-                else:
-                    # Caso absurdo (não deveria acontecer): nem na bin nova coube
-                    temp_remaining.append(rect)
         
         remaining_rects = temp_remaining
 
     return bins
-
 
 def grasp_construction(bin_width, bin_height, rectangles, alpha, max_bins=100):
     # Fase de construção GRASP com FFD
@@ -74,7 +73,7 @@ def grasp_construction(bin_width, bin_height, rectangles, alpha, max_bins=100):
             randomized_rects = sorted_rects
         
         # Aplicar First Fit Decreasing na lista (parcialmente) randomizada
-        solution = first_fit_decreasing_grasp(bin_width, bin_height, randomized_rects, max_bins)
+        solution = first_fit_decreasing(bin_width, bin_height, randomized_rects, max_bins)
         
         if len(solution) < best_num_bins:
             best_num_bins = len(solution)
