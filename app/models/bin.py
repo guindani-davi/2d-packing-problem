@@ -43,7 +43,7 @@ class Bin:
                         return (x, y), rotated
         return None, False
     
-    def occupancy(self):
+    def calculate_occupancy(self):
         return self.used_area / self.area
     
     def __repr__(self):

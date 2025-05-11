@@ -43,7 +43,6 @@ def first_fit_decreasing(bin_width: int, bin_height: int, rectangles: list[Recta
     return bins
 
 def grasp_construction(bin_width, bin_height, rectangles, alpha, max_bins=100):
-    # Fase de construção GRASP com FFD
     best_solution = None
     best_num_bins = float('inf')
     
