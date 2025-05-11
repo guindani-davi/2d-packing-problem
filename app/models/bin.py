@@ -6,8 +6,8 @@ class Bin:
         self.height = height
         self.rectangles: list[Rectangle] = []
         self.used_area = 0
-        self.area = width*height
-        self.occupancy_map = [[False for _ in range(width)] for _ in range(height)] # Map com as posições do recipiente e qual o estado (ocupado ou não) atual
+        self.area = width * height
+        self.occupancy_map = [[False for _ in range(width)] for _ in range(height)] # Mapa com as posições do recipiente e qual o estado (ocupado ou não) atual
     
     def can_place(self, rect: Rectangle, x: int, y: int) -> bool:
         if x + rect.width > self.width or y + rect.height > self.height:
@@ -44,7 +44,7 @@ class Bin:
         return None, False
     
     def occupancy(self):
-        return self.used_area / (self.width * self.height)
+        return self.used_area / self.area
     
     def __repr__(self):
         return f"Bin(w={self.width}, h={self.height}, occupancy={self.occupancy():.2f}, rects={len(self.rectangles)})"
