@@ -1,5 +1,5 @@
-from solution import Solution
-from app.models.bin import Bin
+from models.solution import Solution
+from models.bin import Bin
 
 
 class GraspSolution(Solution):

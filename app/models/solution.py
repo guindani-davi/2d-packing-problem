@@ -1,7 +1,7 @@
 from abc import ABC
 
 
-from app.models.bin import Bin
+from models.bin import Bin
 
 
 class Solution(ABC):

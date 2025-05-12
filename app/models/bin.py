@@ -17,17 +17,16 @@ class Bin:
                 if self.occupancy_map[i][j]:
                     return False
         return True
-
     
-    def place_rectangle(self, rect: Rectangle, x: int, y: int) -> bool:
-        if not self.can_place(rect, x, y):
+    def place_rectangle(self, rectangle: Rectangle, x: int, y: int) -> bool:
+        if not self.can_place(rectangle, x, y):
             return False
-        rect.x = x
-        rect.y = y
-        self.rectangles.append(rect)
-        self.used_area += rect.area
-        for i in range(x, x + rect.width):
-            for j in range(y, y + rect.height):
+        rectangle.x = x
+        rectangle.y = y
+        self.rectangles.append(rectangle)
+        self.used_area += rectangle.area
+        for i in range(x, x + rectangle.width):
+            for j in range(y, y + rectangle.height):
                 self.occupancy_map[i][j] = True
         return True
     
