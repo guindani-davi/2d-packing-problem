@@ -12,12 +12,7 @@ def main():
     solution = GraspSolution(Bin(bin_width, bin_height), 10, alpha)
     solution = GraspBuilder.build(solution, rectangles)
 
-    print("Best solution found:")
-    for i, bin in enumerate(solution.bins):
-        print(f"Bin {i + 1}:")
-        for rectangle in bin.rectangles:
-            print(f"  {rectangle}")
-    print(f"Sum of squared rectangles: {solution.calculate_sum_of_squared_rectangules()}")
+    print(solution)
 
 if __name__ == "__main__":
     main()

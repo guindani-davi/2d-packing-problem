@@ -1,4 +1,4 @@
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 from models.bin import Bin
@@ -12,3 +12,7 @@ class Solution(ABC):
 
     def calculate_sum_of_squared_rectangules(self):
         return sum(len(bin.rectangles) ** 2 for bin in self.bins)
+    
+    @abstractmethod
+    def __str__(self):
+        pass
