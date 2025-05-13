@@ -42,8 +42,5 @@ class Bin:
                         return (x, y), rotated
         return None, False
     
-    def calculate_occupancy(self):
-        return self.used_area / self.area
-    
     def __repr__(self):
         return f"Bin(w={self.width}, h={self.height}, occupancy={self.occupancy():.2f}, rects={len(self.rectangles)})"
