@@ -7,14 +7,15 @@ class Bin:
         self.rectangles: list[Rectangle] = []
         self.used_area = 0
         self.area = width * height
-        self.occupancy_map = [[False for _ in range(width)] for _ in range(height)] # Mapa com as posições do recipiente e qual o estado (ocupado ou não) atual
+        self.occupancy_map = [[False for _ in range(height)] for _ in range(width)] # Mapa com as posições do recipiente e qual o estado (ocupado ou não) atual
     
     def can_place(self, rect: Rectangle, x: int, y: int) -> bool:
         if x + rect.width > self.width or y + rect.height > self.height:
             return False
-        for i in range(x, x + rect.width):
-            for j in range(y, y + rect.height):
-                if self.occupancy_map[i][j]:
+
+        for i in range(y, y + rect.height):
+            for j in range(x, x + rect.width):
+                if self.occupancy_map[j][i]:
                     return False
         return True
     

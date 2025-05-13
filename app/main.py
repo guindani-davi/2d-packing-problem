@@ -5,7 +5,7 @@ from helpers import read_input_file
 
 
 def main():
-    input_file = "inputs/packing_3.txt"
+    input_file = "./app/inputs/packing_3.txt"
     alpha = 0.5
     bin_width, bin_height, rectangles = read_input_file(input_file)
     
