@@ -56,7 +56,7 @@ class GraspBuilder(ABC):
                 if len(current_solution.bins) < len(best_solution.bins):
                     best_solution = current_solution
                 else:
-                    if current_solution.calculate_squared_occupancy_mean() > best_solution.calculate_squared_occupancy_mean():
+                    if current_solution.calculate_sum_of_squared_rectangules() > best_solution.calculate_sum_of_squared_rectangules():
                         best_solution = current_solution
         
         return best_solution
