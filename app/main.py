@@ -1,0 +1,23 @@
+from models.grasp_builder import GraspBuilder
+from models.grasp_solution import GraspSolution
+from models.bin import Bin
+from helpers import read_input_file
+
+
+def main():
+    input_file = "empacotamentos/empacotamento_medio.txt"
+    alpha = 0.3
+    bin_width, bin_height, rectangles = read_input_file(input_file)
+    
+    solution = GraspSolution(Bin(bin_width, bin_height), 10, alpha)
+    solution = GraspBuilder.build(solution, rectangles)
+
+    print("Best solution found:")
+    for i, bin in enumerate(solution.bins):
+        print(f"Bin {i + 1}:")
+        for rectangle in bin.rectangles:
+            print(f"  {rectangle}")
+    print(f"Sum of squared rectangles: {solution.calculate_sum_of_squared_rectangules()}")
+
+if __name__ == "__main__":
+    main()
