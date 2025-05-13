@@ -9,8 +9,11 @@ def read_input_file(filename: str):
     
     rectangles: list[Rectangle] = []
     for i, line in enumerate(lines[1:]):
-        width, height = map(int, line.strip().split())
+        parts = line.strip().split()
+        width, height = map(int, parts[:2])
+        color = parts[2]
+        rgb = tuple(map(int, color.strip("()").split(",")))
         rectangule_id = i + 1
-        rectangles.append(Rectangle(width, height, rectangule_id))
+        rectangles.append(Rectangle(width, height, rgb, rectangule_id))
     
     return bin_width, bin_height, rectangles
