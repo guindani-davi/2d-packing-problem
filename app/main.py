@@ -5,8 +5,8 @@ from helpers import read_input_file
 
 
 def main():
-    input_file = "inputs/packing_1.txt"
-    alpha = 0.3
+    input_file = "inputs/packing_3.txt"
+    alpha = 0.5
     bin_width, bin_height, rectangles = read_input_file(input_file)
     
     solution = GraspSolution(Bin(bin_width, bin_height), 10, alpha)
