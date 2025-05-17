@@ -60,3 +60,7 @@ class GraspBuilder(ABC):
                         best_solution = current_solution
         
         return best_solution
+    
+    @staticmethod
+    def objective_function(solution: GraspSolution) -> float:
+        return -len(solution.bins) * 100000 + solution.calculate_sum_of_squared_rectangules()

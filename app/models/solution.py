@@ -1,8 +1,6 @@
 from abc import ABC, abstractmethod
 
-
 from models.bin import Bin
-
 
 class Solution(ABC):
     def __init__(self, default_bin: Bin, max_bins: int):
