@@ -1,10 +1,11 @@
-import random
+import random, copy
 from abc import ABC
 
 from models.grasp_solution import GraspSolution
 from models.solution import Solution
 from models.bin import Bin
 from models.rectangle import Rectangle
+from models.objective_function import objective_function
 
 class GraspBuilder(ABC):
     @staticmethod
@@ -48,3 +49,30 @@ class GraspBuilder(ABC):
             solution = GraspBuilder.first_fit(solution, chosen_rectangle)
         
         return solution
+    
+    @staticmethod
+    def local_search(solution: GraspSolution, rectangles: list[Rectangle]) -> tuple[GraspSolution, float, list[Rectangle]]:
+        best_solution = copy.deepcopy(solution)
+        best_value = objective_function(best_solution)
+        best_solution_rectangles = copy.deepcopy(rectangles)
+
+        local_peek = False
+        while(not local_peek):
+            for i in range(1, len(best_solution_rectangles)):
+                current_rectangles = copy.deepcopy(best_solution_rectangles)
+                current_rectangles[0], current_rectangles[i] = current_rectangles[i], current_rectangles[0]
+                current_solution = GraspSolution(best_solution.default_bin, best_solution.alpha, best_solution.number)
+                current_solution = GraspBuilder.build(current_solution, current_rectangles)
+
+                if objective_function(current_solution) < best_value:
+                    print("Local search found a better solution")
+                    best_value = objective_function(current_solution)
+                    best_solution = copy.deepcopy(current_solution)
+                    best_solution_rectangles = copy.deepcopy(current_rectangles)
+                    print("Best solution:", best_solution)
+                    print("Objective function value:", best_value)
+                    break
+
+            local_peek = True
+
+        return best_solution, best_solution_rectangles

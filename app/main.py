@@ -5,7 +5,7 @@ from models.bin import Bin
 from helpers import read_input_file
 
 def main():
-    numbers = [1,2,3,4,5]
+    numbers = [1]
     for number in numbers:
         input_file = f"./app/inputs/packing_{number}.txt"
         alpha = 0.5
@@ -14,8 +14,16 @@ def main():
         solution = GraspSolution(Bin(bin_width, bin_height), alpha, number)
         solution = GraspBuilder.build(solution, rectangles)
 
+        print("Initial solution:")
         print(solution)
-        print(objective_function(solution))
+        print("Objective function value:", objective_function(solution))
+
+        solution, rectangules = GraspBuilder.local_search(solution, rectangles)
+        print("After local search:")
+        print(solution)
+        print("Objective function value:", objective_function(solution))
+        print("Rectangles: ")
+        print(rectangules)
 
 if __name__ == "__main__":
     main()
