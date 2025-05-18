@@ -48,7 +48,3 @@ class GraspBuilder(ABC):
             solution = GraspBuilder.first_fit(solution, chosen_rectangle)
         
         return solution
-    
-    @staticmethod
-    def objective_function(solution: GraspSolution) -> float:
-        return len(solution.bins) * 100000 - solution.calculate_sum_of_squared_rectangules()

@@ -1,5 +1,6 @@
 from models.grasp_builder import GraspBuilder
 from models.grasp_solution import GraspSolution
+from models.objective_function import objective_function
 from models.bin import Bin
 from helpers import read_input_file
 
@@ -14,7 +15,7 @@ def main():
         solution = GraspBuilder.build(solution, rectangles)
 
         print(solution)
-        print(GraspBuilder.objective_function(solution))
+        print(objective_function(solution))
 
 if __name__ == "__main__":
     main()
