@@ -3,8 +3,8 @@ from models.bin import Bin
 from PIL import Image, ImageDraw
 
 class GraspSolution(Solution):
-    def __init__(self, default_bin: Bin, max_bins: int, alpha: int,number: int):
-        super().__init__(default_bin, max_bins)
+    def __init__(self, default_bin: Bin, alpha: int,number: int):
+        super().__init__(default_bin)
         self.bin = default_bin
         self.number = number
         self.alpha = alpha

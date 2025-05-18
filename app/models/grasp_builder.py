@@ -9,35 +9,32 @@ from models.rectangle import Rectangle
 class GraspBuilder(ABC):
     @staticmethod
     def first_fit(solution: Solution, rectangle: Rectangle) -> Solution:
-        if len(solution.bins) < solution.max_bins:
-            placed = False
-            for current_bin in solution.bins:
-                position, rotated = current_bin.find_first_fit_position(rectangle)
-                if position is not None:
-                    x, y = position
-                    if rotated:
-                        rectangle.rotate()
-                    current_bin.place_rectangle(rectangle, x, y)
-                    placed = True
-                    break
-            
-            if not placed:
-                new_bin = Bin(solution.default_bin.width, solution.default_bin.height)
-                position, rotated = new_bin.find_first_fit_position(rectangle)
-                if position is not None:
-                    x, y = position
-                    if rotated:
-                        rectangle.rotate()
-                    new_bin.place_rectangle(rectangle, x, y)
-                    solution.bins.append(new_bin)
+        placed = False
+        for current_bin in solution.bins:
+            position, rotated = current_bin.find_first_fit_position(rectangle)
+            if position is not None:
+                x, y = position
+                if rotated:
+                    rectangle.rotate()
+                current_bin.place_rectangle(rectangle, x, y)
+                placed = True
+                break
+        
+        if not placed:
+            new_bin = Bin(solution.default_bin.width, solution.default_bin.height)
+            position, rotated = new_bin.find_first_fit_position(rectangle)
+            if position is not None:
+                x, y = position
+                if rotated:
+                    rectangle.rotate()
+                new_bin.place_rectangle(rectangle, x, y)
+                solution.bins.append(new_bin)
 
         return solution
 
     @staticmethod
     def build(solution: GraspSolution, rectangles: list[Rectangle]) -> GraspSolution:
-        best_solution = solution
-
-        while len(rectangles) > 0 and len(best_solution.bins) < solution.max_bins:
+        while len(rectangles) > 0:
             # Criar LCR (Lista de Candidatos Restrita)
             areas = [rectangle.area for rectangle in rectangles]
             Cmax = max(areas)
@@ -48,19 +45,10 @@ class GraspBuilder(ABC):
             
             chosen_rectangle = random.choice(lcr)
             rectangles.remove(chosen_rectangle)
-            current_solution = GraspBuilder.first_fit(solution, chosen_rectangle)
-            
-            if len(best_solution.bins) == 0:
-                best_solution = current_solution
-            else:
-                if len(current_solution.bins) < len(best_solution.bins):
-                    best_solution = current_solution
-                else:
-                    if current_solution.calculate_sum_of_squared_rectangules() > best_solution.calculate_sum_of_squared_rectangules():
-                        best_solution = current_solution
+            solution = GraspBuilder.first_fit(solution, chosen_rectangle)
         
-        return best_solution
+        return solution
     
     @staticmethod
     def objective_function(solution: GraspSolution) -> float:
-        return -len(solution.bins) * 100000 + solution.calculate_sum_of_squared_rectangules()
+        return len(solution.bins) * 100000 - solution.calculate_sum_of_squared_rectangules()
