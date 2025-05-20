@@ -10,6 +10,7 @@ def main():
         input_file = f"./app/inputs/packing_{number}.txt"
         alpha = 0.5
         bin_width, bin_height, rectangles = read_input_file(input_file)
+        rectanglesCopy = rectangles.copy()
         
         solution = GraspSolution(Bin(bin_width, bin_height), alpha, number)
         solution = GraspBuilder.build(solution, rectangles)
@@ -18,7 +19,7 @@ def main():
         print(solution)
         print("Objective function value:", objective_function(solution))
 
-        solution, rectangules = GraspBuilder.local_search(solution, rectangles)
+        solution, rectangules = GraspBuilder.local_search(solution, rectanglesCopy)
         print("After local search:")
         print(solution)
         print("Objective function value:", objective_function(solution))

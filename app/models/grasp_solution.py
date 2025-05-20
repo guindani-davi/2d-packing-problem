@@ -10,7 +10,7 @@ class GraspSolution(Solution):
         self.alpha = alpha
 
     def __str__(self):
-        size = 700
+        size = 1000
         img = Image.new("RGB",(size, size), "white")
         draw = ImageDraw.Draw(img)
         x = 10
