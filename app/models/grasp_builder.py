@@ -34,18 +34,18 @@ class GraspBuilder(ABC):
         return solution
 
     @staticmethod
-    def build(solution: GraspSolution, rectangles: list[Rectangle]) -> GraspSolution:
-        while len(rectangles) > 0:
+    def build(solution: GraspSolution, rec: list[Rectangle]) -> GraspSolution:
+        while len(rec) > 0:
             # Criar LCR (Lista de Candidatos Restrita)
-            areas = [rectangle.area for rectangle in rectangles]
+            areas = [rectangle.area for rectangle in rec]
             Cmax = max(areas)
             Cmin = min(areas)
             threshold = Cmax - solution.alpha * (Cmax - Cmin)
             
-            lcr = [rectangle for rectangle in rectangles if rectangle.area >= threshold]
+            lcr = [rectangle for rectangle in rec if rectangle.area >= threshold]
             
             chosen_rectangle = random.choice(lcr)
-            rectangles.remove(chosen_rectangle)
+            rec.remove(chosen_rectangle)
             solution = GraspBuilder.first_fit(solution, chosen_rectangle)
         
         return solution
@@ -64,8 +64,8 @@ class GraspBuilder(ABC):
                     current_rectangles = copy.deepcopy(best_solution_rectangles)
                     current_rectangles[j], current_rectangles[i] = current_rectangles[i], current_rectangles[j]
                     current_solution = GraspSolution(best_solution.default_bin, best_solution.alpha, best_solution.number)
-                    current_solution = GraspBuilder.build(current_solution, current_rectangles)
-                    print(objective_function(current_solution))
+                    current_solution = GraspBuilder.build(current_solution, list(current_rectangles))
+                    
                     if objective_function(current_solution) < best_value:
                         print("Local search found a better solution")
                         best_value = objective_function(current_solution)
@@ -73,7 +73,12 @@ class GraspBuilder(ABC):
                         best_solution_rectangles = copy.deepcopy(current_rectangles)
                         print("Best solution:", best_solution)
                         print("Objective function value:", best_value)
-                        best_solution, best_solution_rectangles = GraspBuilder.local_search(best_solution, rectangles)
+                        reset = True
+                    if reset:
+                        break
+                if reset:
+                    break
+            if not reset:
                 local_peek = True
 
         return best_solution, best_solution_rectangles
