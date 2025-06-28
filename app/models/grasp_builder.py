@@ -55,7 +55,6 @@ class GraspBuilder(ABC):
         best_solution = copy.deepcopy(solution)
         best_value = objective_function(best_solution)
         best_solution_rectangles = copy.deepcopy(rectangles)
-
         local_peek = False
         while(not local_peek):
             reset = False
@@ -65,10 +64,10 @@ class GraspBuilder(ABC):
                     current_rectangles[j], current_rectangles[i] = current_rectangles[i], current_rectangles[j]
                     current_solution = GraspSolution(best_solution.default_bin, best_solution.alpha, best_solution.number)
                     current_solution = GraspBuilder.build(current_solution, list(current_rectangles))
-                    
-                    if objective_function(current_solution) < best_value:
+                    current_value = objective_function(current_solution)
+                    if current_value < best_value:
                         print("Local search found a better solution")
-                        best_value = objective_function(current_solution)
+                        best_value = current_value
                         best_solution = copy.deepcopy(current_solution)
                         best_solution_rectangles = copy.deepcopy(current_rectangles)
                         print("Best solution:", best_solution)
@@ -81,4 +80,16 @@ class GraspBuilder(ABC):
             if not reset:
                 local_peek = True
 
-        return best_solution, best_solution_rectangles
+        return best_solution,best_solution_rectangles
+    
+    @staticmethod
+    def neighborhood(solution: GraspSolution, rectangles: list[Rectangle]) -> list[GraspSolution]:
+        neighbors = []
+        for i in range(len(rectangles)):
+            for j in range(i + 1, len(rectangles)):
+                current_rectangles = copy.deepcopy(rectangles)
+                current_rectangles[j], current_rectangles[i] = current_rectangles[i], current_rectangles[j] # é isso mesmo?
+                new_solution = copy.deepcopy(solution)
+                new_solution = GraspBuilder.build(new_solution, list(current_rectangles))
+                neighbors.append(new_solution)
+        return neighbors
